@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Consórcio vs Financiamento — qual caminho pro seu imóvel na praia?</title>
+<meta name="description" content="Comparador interativo entre consórcio e financiamento imobiliário para comprar no litoral. Satélite da rede praia.digital">
+<style>
+body{margin:0;font-family:system-ui,sans-serif;background:#f5f3ff;color:#2e1065;min-height:100vh}
+header{padding:24px;text-align:center;background:linear-gradient(120deg,#6d28d9,#a78bfa);color:#fff}
+nav a{color:#ede9fe;margin:0 8px;text-decoration:none;font-size:14px;font-weight:600}
+.wrap{max-width:760px;margin:auto;padding:24px}
+.panel{background:#fff;border-radius:16px;padding:22px;margin-bottom:16px;box-shadow:0 6px 18px rgba(109,40,217,.1)}
+label{display:block;margin:10px 0 4px;font-weight:600}
+input{width:100%;padding:12px;border-radius:10px;border:2px solid #ddd6fe;font-size:16px}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:640px){.cols{grid-template-columns:1fr}}
+.col{border-radius:14px;padding:18px;text-align:center}
+.cons{background:#ede9fe}.fin{background:#dbeafe}
+.col b{display:block;font-size:22px;margin:6px 0}
+.veredito{text-align:center;background:#dcfce7;border-radius:14px;padding:18px;font-size:18px;font-weight:700}
+footer{padding:20px;text-align:center;font-size:13px}
+footer a{color:#6d28d9}
+</style></head>
+<body>
+<header><h1>⚖️ Consórcio vs Financiamento</h1><p>Qual pesa menos no bolso para o seu apê na praia?</p>
+<nav><a href="https://praia.digital">Praia Digital</a><a href="https://praia.digital/simulador-credito">Simulador de Crédito</a><a href="https://praia.digital/plano-litoral">Plano Litoral</a><a href="https://praia.digital/apps">Todos os apps</a></nav></header>
+<div class="wrap"><div class="panel">
+<label>🏠 Valor do imóvel (R$)</label><input type="number" id="valor" value="500000" oninput="calc()">
+<label>💰 Entrada (R$, só financiamento)</label><input type="number" id="entrada" value="100000" oninput="calc()">
+<label>📅 Prazo (anos)</label><input type="number" id="anos" value="15" oninput="calc()">
+<label>📈 Taxa financiamento (%/ano)</label><input type="number" id="taxa" value="10.5" step="0.1" oninput="calc()">
+</div>
+<div class="cols"><div class="col cons"><h3>🐢 Consórcio</h3><div id="consOut"></div></div><div class="col fin"><h3>🐇 Financiamento</h3><div id="finOut"></div></div></div>
+<div class="veredito" id="veredito" style="margin-top:16px"></div>
+</div>
+<footer>Rede <a href="https://praia.digital">praia.digital</a> · <a href="https://praia.digital/calculadoras">Calculadoras</a> · <a href="https://praia.digital/iptu-litoral">IPTU</a> · <a href="https://praia.digital/investidores-litoral">Investidores</a></footer>
+<script>
+function fmt(v){return 'R$ '+Math.round(v).toLocaleString('pt-BR')}
+function calc(){
+const V=+valor.value,E=+entrada.value,n=+anos.value*12,i=+taxa.value/100/12;
+const p=(V-E)*i/(1-Math.pow(1+i,-n));const totFin=E+p*n;
+const taxaCons=0.17;const parcCons=V*(1+taxaCons)/n;const totCons=V*(1+taxaCons);
+consOut.innerHTML=`Parcela: <b>${fmt(parcCons)}</b>Total pago: <b>${fmt(totCons)}</b><small>Custo efetivo ~17% (taxa admin + fundo). Mas: você só usa o imóvel quando for <b>contemplado</b> — pode levar anos.</small>`;
+finOut.innerHTML=`Parcela: <b>${fmt(p)}</b>Total pago: <b>${fmt(totFin)}</b><small>Custo alto de juros, mas você mora/aluga <b>desde o dia 1</b> — a renda de temporada ajuda a pagar!</small>`;
+const diff=totFin-totCons;
+veredito.innerHTML=diff>0?`🐢 O consórcio sai <b>${fmt(diff)}</b> mais barato, mas sem pressa. Com pressa ou querendo renda imediata? Financiamento + temporada no <a href="https://praia.digital/calculadora-temporada">Calc. Temporada</a> pode empatar o jogo.`:`🐇 Financiamento mais barato neste cenário!`;
+}
+calc();
+</script></body></html>
